@@ -12,7 +12,7 @@ from openai import error
 import voluptuous as vol
 
 from homeassistant import config_entries
-from homeassistant.const import CONF_API_KEY
+from homeassistant.const import CONF_API_KEY, CONF_URL
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.selector import (
@@ -40,6 +40,7 @@ _LOGGER = logging.getLogger(__name__)
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_API_KEY): str,
+        vol.Required(CONF_URL): str,
     }
 )
 
@@ -59,7 +60,10 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> None:
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.
     """
+    openai.api_type = "azure"
     openai.api_key = data[CONF_API_KEY]
+    openai.api_base = data[CONF_URL]
+    openai.api_version = "2023-07-01-preview"
     await hass.async_add_executor_job(partial(openai.Engine.list, request_timeout=10))
 
 

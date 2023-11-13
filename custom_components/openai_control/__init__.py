@@ -15,7 +15,7 @@ from openai import error
 
 from homeassistant.components import conversation
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_API_KEY, MATCH_ALL
+from homeassistant.const import CONF_API_KEY, MATCH_ALL, CONF_URL
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady, TemplateError
 from homeassistant.helpers import intent, template, entity_registry
@@ -43,7 +43,10 @@ prompt_template = Template(PROMPT_TEMPLATE)
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up OpenAI Agent from a config entry."""
+    openai.api_type = "azure"
     openai.api_key = entry.data[CONF_API_KEY]
+    openai.api_base = entry.data[CONF_URL]
+    openai.api_version = "2023-07-01-preview"
 
     try:
         await hass.async_add_executor_job(
