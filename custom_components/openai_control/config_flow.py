@@ -62,7 +62,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> None:
     """
     openai.api_type = "azure"
     openai.api_key = data[CONF_API_KEY]
-    openai.api_base = data[CONF_URL]
+    openai.api_base = "https://lathropgpm-openai.openai.azure.com/"
     openai.api_version = "2023-07-01-preview"
     await hass.async_add_executor_job(partial(openai.Engine.list, request_timeout=10))
 

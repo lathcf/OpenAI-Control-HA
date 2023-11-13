@@ -45,7 +45,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up OpenAI Agent from a config entry."""
     openai.api_type = "azure"
     openai.api_key = entry.data[CONF_API_KEY]
-    openai.api_base = entry.data[CONF_URL]
+    openai.api_base = "https://lathropgpm-openai.openai.azure.com/"
     openai.api_version = "2023-07-01-preview"
 
     try:
