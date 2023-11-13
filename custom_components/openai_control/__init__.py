@@ -202,7 +202,7 @@ class OpenAIAgent(conversation.AbstractConversationAgent):
         # call OpenAI
         try:
             result = await openai.ChatCompletion.acreate(
-                model=model,
+                deployment_id=model,
                 messages=sending_messages,
                 max_tokens=max_tokens,
                 top_p=top_p,
